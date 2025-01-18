@@ -25,8 +25,7 @@ public class ChangeScene : Singleton<ChangeScene>
                 break;
             case BubbleColorType.Purple:
                 break;
-            case BubbleColorType.transparent:
-                break;
+            
             default:
                 break;
         }

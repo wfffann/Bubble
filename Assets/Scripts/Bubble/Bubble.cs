@@ -1,4 +1,4 @@
-using System.Diagnostics;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;  // 引入场景管理命名空间
 
@@ -53,10 +53,6 @@ public class Bubble : MonoBehaviour
 
             case BubbleColorType.Purple:
                 SceneManager.LoadScene("PurpleScene");
-                break;
-
-            case BubbleColorType.Transparent:
-                SceneManager.LoadScene("TransparentScene");
                 break;
 
             default:

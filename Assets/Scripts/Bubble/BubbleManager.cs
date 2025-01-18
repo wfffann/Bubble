@@ -24,7 +24,7 @@ public class BubbleManager : Singleton<BubbleManager>
     public void Init()
     {
         currentItem.gameObject.SetActive(false);
-        currentBubbleColorType = BubbleColorType.transparent;
+        currentBubbleColorType = BubbleColorType.Transparent;
     }
 
     /// <summary>
@@ -76,8 +76,6 @@ public class BubbleManager : Singleton<BubbleManager>
             case BubbleColorType.Yellow:
                 break;
             case BubbleColorType.Purple:
-                break;
-            case BubbleColorType.transparent:
                 break;
             default:
                 break;
