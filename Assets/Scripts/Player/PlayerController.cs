@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // 变量
-    public float speed = 5f;               // 移动速度（与力无关，主要用来控制施加的力的大小）
+    public float speed = 5f;               // 最大移动速度
     public float force = 10f;              // 施加的力，控制加速的快慢
-    public float drag = 3f;                // 物体的阻力（用于模拟减速）
+    public float drag = 3f;                // 物体的阻力，用于模拟减速
 
     private Vector2 moveDir;               // 移动方向
 
@@ -53,14 +53,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
-        // 使用 AddForce 来控制玩家移动
+        // 如果有输入方向，施加力
         if (moveDir != Vector2.zero)
         {
             // 施加力，强度由 `force` 控制
             rb.AddForce(moveDir * force);
         }
 
-        // 如果你想限制玩家的最大速度（比如使用最大速度控制玩家的移动），可以加入以下限制：
-        // rb.velocity = Vector2.ClampMagnitude(rb.velocity, speed);
+        // 限制最大速度
+        if (rb.velocity.magnitude > speed)
+        {
+            rb.velocity = rb.velocity.normalized * speed;
+        }
     }
 }
