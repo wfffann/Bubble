@@ -12,7 +12,11 @@ public enum BubbleColorType
     Blue,
     Yellow,
     Purple,
-    Transparent
+    Transparent,
+
+    stationary,
+    bouncing,
+    chased
 }
 
 public class Bubble : MonoBehaviour
@@ -27,6 +31,7 @@ public class Bubble : MonoBehaviour
         {
             SwitchSceneBasedOnColor();
         }
+
     }
 
     // 根据泡泡的颜色切换场景

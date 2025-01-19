@@ -4,21 +4,59 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    //变量
-    public float demage;
+    public int demage;
+    public BubbleColorType bubbleColorType;
+    SpriteRenderer spRender;
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void Init()
     {
-        //造成伤害
-
-        //击退
+        spRender = GetComponent<SpriteRenderer>();
+        bubbleColorType = ((BubbleColorType)Random.Range(0, 9));
+        DealColor();
     }
 
+
+    /// <summary>
+    /// 测试用 调整个颜色
+    /// </summary>
+    private void DealColor()
+    {
+        switch (bubbleColorType)
+        {
+            case BubbleColorType.Red:
+            case BubbleColorType.Green:
+            case BubbleColorType.Blue:
+            case BubbleColorType.Yellow:
+            case BubbleColorType.Purple:
+            case BubbleColorType.Transparent:
+                spRender.color = Color.yellow;
+                break;
+            case BubbleColorType.stationary:
+                spRender.color = Color.red;
+                break;
+            case BubbleColorType.bouncing:
+                spRender.color = Color.white;
+                break;
+            case BubbleColorType.chased:
+                spRender.color = Color.cyan;
+                break;
+        }
+    }
+
+      
     /// <summary>
     /// 造成伤害
     /// </summary>
-    public void TakeDamage()
+    public void TakeDamage(PlayerController player)
     {
+        player.HP -= demage;
+    }
 
+    /// <summary>
+    /// 场景跳转
+    /// </summary>
+    public void ChangeScene()
+    {
+        BubbleManager.Instance.EnterNewBubble(this);
     }
 }

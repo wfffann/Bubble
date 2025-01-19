@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BubbleManager : Singleton<BubbleManager>
 {
-    //变量
-    public BubbleColorType currentBubbleColorType;
-    public BubbleColorType originalBubbleColorType;
-
-    public GameObject currentItem;
-    public GameObject targetItem;
+    public Transform NPCTar;
+    public int NUM=15;
 
     //组件
-
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
         Init();
+
     }
 
     /// <summary>
@@ -23,62 +21,65 @@ public class BubbleManager : Singleton<BubbleManager>
     /// </summary>
     public void Init()
     {
-        currentItem.gameObject.SetActive(false);
-        currentBubbleColorType = BubbleColorType.Transparent;
+        for (int i = 0; i < NUM; i++)
+        {
+            CreateMonster();
+        }
+
+
     }
+     
+    public void CreateMonster()
+    {
+        Enemy tempEnemy = Instantiate(Resources.Load<Enemy>("Perfabs\\TestMonster"));
+        tempEnemy.transform.SetParent(NPCTar);
+        tempEnemy.transform.position = new Vector3(Random.Range(-30, 30), Random.Range(-20, 20), 0);
+
+        tempEnemy.Init();
+    }
+
+
+
+
+
+
 
     /// <summary>
     /// 进入新的泡泡内部
     /// </summary>
-    public void EnterNewBubble(BubbleColorType bubbleColorType)
+    public void EnterNewBubble(Enemy enemy)
     {
-        originalBubbleColorType = currentBubbleColorType;//记录原始场景
-      
-        string sceneName = ChangeScene.Instance.SwitchSceneByBubbleColorType(bubbleColorType);
-        ChangeScene.Instance.LoadNewScene(sceneName);//加载目标场景
-
-        currentBubbleColorType = bubbleColorType;
-    }
-
-    /// <summary>
-    /// 退出当前的泡泡
-    /// </summary>
-    public void ExitCurrentBubble()
-    {
-
-        //加载原始场景
-        string sceneName = ChangeScene.Instance.SwitchSceneByBubbleColorType(originalBubbleColorType);
-        ChangeScene.Instance.LoadNewScene(sceneName);//加载目标场景
-
-        //添加退出场景的物件
-        AddNewItem(currentBubbleColorType);
-
-        BubbleColorType temp;
-        temp = originalBubbleColorType;
-        originalBubbleColorType = currentBubbleColorType;
-        currentBubbleColorType = temp;
-    }
-
-    /// <summary>
-    /// 在泡泡内添加新的物件
-    /// </summary>
-    public void AddNewItem(BubbleColorType bubbleColorType)
-    {
-        switch (bubbleColorType)
+        switch (enemy.bubbleColorType)
         {
             case BubbleColorType.Red:
-                //替换currentItem
+                SceneManager.LoadScene("RedScene");//加载目标场景
                 break;
             case BubbleColorType.Green:
+                SceneManager.LoadScene("GreenScene");//加载目标场景
                 break;
             case BubbleColorType.Blue:
+                SceneManager.LoadScene("BlueScene");//加载目标场景
                 break;
             case BubbleColorType.Yellow:
-                break;
-            case BubbleColorType.Purple:
-                break;
-            default:
+                SceneManager.LoadScene("YellowScene");//加载目标场景
                 break;
         }
     }
+    public void ExitCurrentBubble()
+    {
+
+        ////加载原始场景
+        //string sceneName = ChangeScene.Instance.SwitchSceneByBubbleColorType(originalBubbleColorType);
+        //ChangeScene.Instance.LoadNewScene(sceneName);//加载目标场景
+
+        ////添加退出场景的物件
+        //AddNewItem(currentBubbleColorType);
+
+        //BubbleColorType temp;
+        //temp = originalBubbleColorType;
+        //originalBubbleColorType = currentBubbleColorType;
+        //currentBubbleColorType = temp;
+    }
+
+    
 }
